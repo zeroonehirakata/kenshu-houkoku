@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>研修報告</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="研修報告">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<style>
+:root {
+  --bg: #f2f2f7; --card: #ffffff; --text: #1c1c1e; --sub: #6c6c70; --line: #d8d8dd;
+  --accent: #2f6f5e; --accent-text: #ffffff; --danger: #d33a2c; --field: #ffffff;
+  --label-bg: #595959; --shadow: 0 1px 2px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000; --card: #1c1c1e; --text: #f2f2f7; --sub: #98989f; --line: #38383a;
+    --accent: #5fb89e; --accent-text: #00140e; --danger: #ff6b5e; --field: #2c2c2e; --shadow: none;
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, sans-serif;
+  font-size: 16px; line-height: 1.5;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+button { font: inherit; color: inherit; }
+.hidden { display: none !important; }
+
+/* ヘッダー */
+.bar {
+  position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line); min-height: 52px;
+}
+.bar h1 { font-size: 17px; margin: 0; flex: 1; text-align: center; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .side { min-width: 72px; display: flex; }
+.bar .side.right { justify-content: flex-end; }
+.link { background: none; border: 0; color: var(--accent); padding: 6px 2px; font-size: 16px; cursor: pointer; }
+
+main { max-width: 760px; margin: 0 auto; padding: 16px 16px 120px; }
+
+/* 一覧 */
+.empty { text-align: center; color: var(--sub); padding: 48px 16px; }
+.empty p { margin: 0 0 8px; }
+.list { list-style: none; margin: 0; padding: 0; background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.list li { border-bottom: 1px solid var(--line); }
+.list li:last-child { border-bottom: 0; }
+.list button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 12px 16px; cursor: pointer; }
+.list .t { font-weight: 600; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.list .m { color: var(--sub); font-size: 13px; display: block; }
+.section-title { font-size: 13px; color: var(--sub); margin: 20px 4px 6px; }
+
+.fab {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(20px + env(safe-area-inset-bottom)); z-index: 20;
+  background: var(--accent); color: var(--accent-text); border: 0; border-radius: 999px;
+  padding: 14px 28px; font-size: 17px; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,.2); cursor: pointer;
+}
+
+/* フォーム */
+.group { background: var(--card); border-radius: 12px; padding: 4px 16px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.field { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.field:last-child { border-bottom: 0; }
+.field label { display: block; font-size: 13px; color: var(--sub); margin-bottom: 4px; }
+.field .hint { font-size: 12px; color: var(--sub); margin-top: 4px; }
+input[type=text], input[type=date], input[type=time], textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--field);
+  border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; -webkit-appearance: none; appearance: none;
+}
+input[type=date], input[type=time] { min-height: 42px; }
+textarea { min-height: 150px; resize: vertical; line-height: 1.6; }
+textarea.big { min-height: 260px; }
+input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row-time { display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px; align-items: center; }
+.tools { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.tools button {
+  border: 1px solid var(--line); background: var(--field); border-radius: 6px; padding: 3px 10px; font-size: 14px; cursor: pointer;
+}
+.big-label { font-weight: 600; font-size: 15px; color: var(--text) !important; }
+
+.actions { display: grid; gap: 10px; margin-top: 8px; }
+.btn {
+  border: 0; border-radius: 12px; padding: 14px; font-size: 17px; font-weight: 600; cursor: pointer;
+  background: var(--card); color: var(--accent); box-shadow: var(--shadow);
+}
+.btn.primary { background: var(--accent); color: var(--accent-text); }
+.btn.danger { color: var(--danger); }
+.saved { text-align: center; font-size: 12px; color: var(--sub); min-height: 18px; margin: 4px 0 12px; }
+
+/* プレビュー（A4風） */
+.sheet-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.sheet {
+  background: #fff; color: #000; width: 100%; min-width: 340px; padding: 4%;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif; font-size: 10px; line-height: 1.35;
+  box-shadow: 0 2px 10px rgba(0,0,0,.15); border-radius: 4px;
+}
+.sheet .top { display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 8px; }
+.sheet .top b { font-family: "Hiragino Sans", sans-serif; font-size: 1.6em; font-weight: 500; }
+.sheet table { width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed; }
+.sheet td { border: 1px solid #000; padding: 3px 4px; vertical-align: middle; word-break: break-all; }
+.sheet td.l { background: #595959; color: #fff; text-align: center; width: 4.2em; white-space: nowrap; font-family: "Hiragino Sans", sans-serif; }
+.sheet td.c { text-align: center; }
+.sheet .sec { border: 1px solid #000; margin-bottom: 0; }
+.sheet .sec + .sec { border-top: 0; }
+.sheet .sec h3 { margin: 0; background: #595959; color: #fff; text-align: center; font-weight: 400; font-size: 1em; padding: 2px; font-family: "Hiragino Sans", sans-serif; }
+.sheet .sec div { white-space: pre; min-height: 1.35em; padding: 0 4px; overflow: hidden; }
+.preview-note { font-size: 13px; color: var(--sub); margin: 0 4px 12px; }
+
+/* トースト */
+.toast {
+  position: fixed; left: 50%; bottom: calc(90px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+  background: rgba(30,30,30,.92); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 14px;
+  z-index: 50; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; text-align: center;
+}
+.toast.show { opacity: 1; }
+.help { font-size: 14px; color: var(--sub); }
+.help ol { padding-left: 1.4em; margin: 6px 0; }
+</style>
+</head>
+<body>
+
+<!-- 一覧画面 -->
+<section id="view-list">
+  <div class="bar">
+    <div class="side"></div>
+    <h1>研修報告</h1>
+    <div class="side right"><button class="link" id="btn-settings">設定</button></div>
+  </div>
+  <main>
+    <div id="list-empty" class="empty">
+      <p>まだ記録がありません。</p>
+      <p>下の「＋ 新しい記録」から始めましょう。</p>
+    </div>
+    <div class="section-title hidden" id="list-title">記録一覧（端末内に自動保存）</div>
+    <ul class="list" id="list"></ul>
+  </main>
+  <button class="fab" id="btn-new">＋ 新しい記録</button>
+</section>
+
+<!-- 編集画面 -->
+<section id="view-edit" class="hidden">
+  <div class="bar">
+    <div class="side"><button class="link" id="btn-back">‹ 一覧</button></div>
+    <h1 id="edit-title">記録</h1>
+    <div class="side right"><button class="link" id="btn-preview">プレビュー</button></div>
+  </div>
+  <main>
+    <div class="group">
+      <div class="field">
+        <label for="f-theme">テーマ</label>
+        <input type="text" id="f-theme" data-k="theme" placeholder="例：住宅改修工事研修">
+      </div>
+      <div class="field">
+        <label for="f-trainDate">研修日</label>
+        <input type="date" id="f-trainDate" data-k="trainDate">
+      </div>
+      <div class="field">
+        <label>時間（任意）</label>
+        <div class="row-time">
+          <input type="time" id="f-timeFrom" data-k="timeFrom" aria-label="開始時刻">
+          <span>～</span>
+          <input type="time" id="f-timeTo" data-k="timeTo" aria-label="終了時刻">
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-place">場所</label>
+        <input type="text" id="f-place" data-k="place" placeholder="例：事務所">
+      </div>
+      <div class="field">
+        <label for="f-lecturer">講師</label>
+        <input type="text" id="f-lecturer" data-k="lecturer" placeholder="例：〇〇株式会社　〇〇様">
+      </div>
+      <div class="field">
+        <label for="f-purpose">目的</label>
+        <input type="text" id="f-purpose" data-k="purpose" placeholder="例：住宅改修における基礎知識の習得">
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="field">
+        <label for="f-content" class="big-label">研修内容</label>
+        <div class="tools" data-for="f-content">
+          <button type="button" data-ins="・">・</button>
+          <button type="button" data-ins="　">字下げ</button>
+          <button type="button" data-ins="　　">字下げ×2</button>
+        </div>
+        <textarea id="f-content" data-k="content" class="big" placeholder="研修中のメモをそのまま入力してください。&#10;長い行はExcelの枠に合わせて自動で折り返されます。"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-impression" class="big-label">所感</label>
+        <div class="tools" data-for="f-impression">
+          <button type="button" data-ins="・">・</button>
+          <button type="button" data-ins="　">字下げ</button>
+        </div>
+        <textarea id="f-impression" data-k="impression"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-notes" class="big-label">備考</label>
+        <textarea id="f-notes" data-k="notes" style="min-height:80px"></textarea>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="field">
+        <label for="f-name">氏名</label>
+        <input type="text" id="f-name" data-k="name" placeholder="設定画面で既定値を登録できます">
+      </div>
+      <div class="field">
+        <label for="f-reportDate">報告日（右上の日付）</label>
+        <input type="date" id="f-reportDate" data-k="reportDate">
+        <div class="hint">空欄なら研修日と同じ日付になります。</div>
+      </div>
+      <div class="field">
+        <label for="f-shortTitle">ファイル名に使う研修名</label>
+        <input type="text" id="f-shortTitle" data-k="shortTitle" placeholder="空欄ならテーマを使います">
+        <div class="hint" id="fname-hint"></div>
+      </div>
+    </div>
+
+    <div class="saved" id="saved-msg"></div>
+
+    <div class="actions">
+      <button class="btn primary" id="btn-export">Excelを作成して送る</button>
+      <button class="btn" id="btn-dup">この記録を複製</button>
+      <button class="btn danger" id="btn-delete">この記録を削除</button>
+    </div>
+  </main>
+</section>
+
+<!-- プレビュー画面 -->
+<section id="view-preview" class="hidden">
+  <div class="bar">
+    <div class="side"><button class="link" id="btn-preview-back">‹ 戻る</button></div>
+    <h1>プレビュー</h1>
+    <div class="side right"><button class="link" id="btn-preview-export">送る</button></div>
+  </div>
+  <main>
+    <p class="preview-note">Excelでの行の区切り方を確認できます（フォントの違いで見た目は多少異なります）。</p>
+    <div class="sheet-wrap"><div class="sheet" id="sheet"></div></div>
+  </main>
+</section>
+
+<!-- 設定画面 -->
+<section id="view-settings" class="hidden">
+  <div class="bar">
+    <div class="side"><button class="link" id="btn-settings-back">‹ 一覧</button></div>
+    <h1>設定</h1>
+    <div class="side right"></div>
+  </div>
+  <main>
+    <div class="section-title">新しい記録に自動で入る値</div>
+    <div class="group">
+      <div class="field">
+        <label for="s-name">氏名</label>
+        <input type="text" id="s-name" placeholder="例：山田　太郎">
+        <div class="hint">姓と名の間にスペースを入れると、ファイル名に姓だけが使われます。</div>
+      </div>
+      <div class="field">
+        <label for="s-place">場所</label>
+        <input type="text" id="s-place" placeholder="例：事務所">
+      </div>
+    </div>
+
+    <div class="section-title">バックアップ</div>
+    <div class="group">
+      <div class="field help">
+        記録はこの端末の中だけに保存されます。機種変更の前などに書き出しておくと安心です。
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="btn-backup">すべての記録を書き出す</button>
+      <button class="btn" id="btn-restore">書き出したファイルから読み込む</button>
+      <input type="file" id="file-restore" accept=".json,application/json" class="hidden">
+    </div>
+
+    <div class="section-title">使い方</div>
+    <div class="group">
+      <div class="field help">
+        <ol>
+          <li>Safariでこのページを開き、共有ボタン →「ホーム画面に追加」でアプリのように使えます。</li>
+          <li>研修中は「研修内容」にメモを入力。入力内容は自動で保存されます。</li>
+          <li>「Excelを作成して送る」→ LINE・Dropbox・メールなどを選ぶと、いつもの書式のExcelが届きます。</li>
+        </ol>
+        ※ 入力内容がインターネット上に送られることはありません。
+      </div>
+    </div>
+    <p class="saved" id="version"></p>
+  </main>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script src="xlsx.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
